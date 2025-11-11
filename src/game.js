@@ -3,18 +3,19 @@ import { Player } from "./entity/player";
 import { Enemy } from "./entity/enemy";
 import { Bullet } from "./entity/bullet";
 import Matter from "matter-js"
+import { Dialog } from "./ui/dialog";
 
 export class Game {
     static engine = undefined;
     static canvas = undefined;
     static render = undefined;
     static contextMenu = undefined;
-    static player = undefined;
+    /*static player = undefined;
     static enemy = undefined;
     static ground = undefined;
     static roof = undefined;
     static wall = undefined;
-    static wall2 = undefined;
+    static wall2 = undefined;*/
     static keys = {};
 
     static init = ({ size }) => {
@@ -42,9 +43,28 @@ export class Game {
                 label: 'Create Rectangle',
                 icon: '📋',
                 action: () => {
-                    const newBody = Matter.Bodies.rectangle(400, 100, 80, 80);
+                    const createDialog = new Dialog();
+                    createDialog.open({
+                        title: 'Create Rectangle',
+                        inputs: [
+                            { label: 'Width', name: 'width', type: 'number' },
+                            { label: 'Height', name: 'height', type: 'number' },
+                            { label: 'Color', name: 'color', type: 'text' }
+                        ],
+                        buttons: [
+                            { 
+                                label: 'Create', 
+                                type: 'primary', 
+                                action: (values) => {
+                                    const size = { w: parseInt(values.width), h: parseInt(values.height) };
 
-                    Matter.Composite.add(Game.engine.world, [newBody]);
+                                    const add = Matter.Bodies.rectangle(200, 200, size.w, size.h, { isStatic: true });
+
+                                    Matter.Composite.add(Game.engine.world, [add]);
+                                } 
+                            }
+                        ]
+                    })
                 }
             },
             {
@@ -62,15 +82,15 @@ export class Game {
     };
 
     static createWorld = () => {
-        Game.player = new Player({ render: Game.render, engine: Game.engine });
+        /*Game.player = new Player({ render: Game.render, engine: Game.engine });
         Game.enemy = new Enemy({ render: Game.render, engine: Game.engine });
         Game.ground = Matter.Bodies.rectangle(400, 800, 1500, 60, { isStatic: true }); // Static body won't move
         Game.roof = Matter.Bodies.rectangle(400, 0, 1500, 60, { isStatic: true }); // Static body won't move
         Game.wall = Matter.Bodies.rectangle(0, 580, 60, 1500, { isStatic: true }); // Static body won't move
-        Game.wall2 = Matter.Bodies.rectangle(1025, 580, 60, 1500, { isStatic: true }); // Static body won't move
+        Game.wall2 = Matter.Bodies.rectangle(1025, 580, 60, 1500, { isStatic: true }); // Static body won't move*/
 
         // Add bodies to the world
-        Matter.Composite.add(Game.engine.world, 
+        /*Matter.Composite.add(Game.engine.world, 
             [
                 Game.player.body, 
                 Game.enemy.body, 
@@ -79,9 +99,9 @@ export class Game {
                 Game.wall2,
                 Game.roof
             ]
-        );
+        );*/
 
-        Game.addListeners();
+        //Game.addListeners();
     };
 
     static run = () => {
@@ -94,7 +114,7 @@ export class Game {
     };
 
     static addListeners = () => {
-        let bulletDirection = 'none';
+        /*let bulletDirection = 'none';
 
         document.addEventListener('keydown', (event) => {
             Game.keys[event.code] = true;
@@ -148,6 +168,6 @@ export class Game {
             if(Game.player.removed) {
                 Matter.Composite.remove(Game.engine.world, Game.player.body);
             }
-        });
+        });*/
     };
 }
