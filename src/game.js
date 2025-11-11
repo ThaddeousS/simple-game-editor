@@ -38,7 +38,6 @@ export class Game {
 
         Game.contextMenu = new ContextMenu();
         const menuItems = [
-            { label: 'Create World', icon: '🌍', action: Game.createWorld },
             {
                 label: 'Create Rectangle',
                 icon: '📋',
@@ -125,15 +124,6 @@ export class Game {
             }
         
             if(Game.keys['Space']) {
-                let bulletSpeed = 0;
-                if(bulletDirection === 'right') {
-                    bulletSpeed = 0.03;
-                }
-        
-                if(bulletDirection === 'left') {
-                    bulletSpeed = -0.03;
-                }
-        
                 let bulletOffset = 0;
                 if(bulletDirection === 'right') {
                     bulletOffset = 40;
@@ -145,10 +135,9 @@ export class Game {
         
                const bullet = new Bullet({
                     position: { x: Game.player.body.position.x + bulletOffset, y: Game.player.body.position.y },
-                    speed: 2,
                });
         
-               Matter.Body.applyForce(bullet.body, bullet.body.position, { x: bulletSpeed, y: 0 });
+               Matter.Body.applyForce(bullet.body, bullet.body.position, { x: bullet.speed, y: 0 });
                Matter.Composite.add(Game.engine.world, [bullet.body]);
             }
         

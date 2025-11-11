@@ -6,7 +6,7 @@ export class Bullet extends Entity {
             { 
                 size: options?.size || { x: 15, y: 5 }, 
                 position: options?.position || { x: 0, y: 0 }, 
-                speed: options?.speed || 2,
+                speed: options?.speed || 0.01,
                 label: 'bullet',
                 collisionFilter: {
                     category: 0x0002,
@@ -16,5 +16,7 @@ export class Bullet extends Entity {
                 engine: options?.engine,
             }
         );
+
+        console.log(`BULLET SPEED ${this.speed}`);
     }
 }
