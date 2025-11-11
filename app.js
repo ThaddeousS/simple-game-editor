@@ -19,9 +19,10 @@ dialog.open({
                     }
                 });
                 Game.run();
-                Game.createWorld();
+                Game.createContextMenu();
 
                 dialog.close();
+                dialog.destroy();
             },
         }
     ],

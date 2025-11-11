@@ -4,11 +4,14 @@ import { Enemy } from "./entity/enemy";
 import { Bullet } from "./entity/bullet";
 import Matter from "matter-js"
 import { Dialog } from "./ui/dialog";
+import { EntityManager } from "./entity/entity-manager";
 
 export class Game {
     static engine = undefined;
     static canvas = undefined;
     static render = undefined;
+    static mouse = undefined;
+    static mouseConstraint = undefined;
     static contextMenu = undefined;
     /*static player = undefined;
     static enemy = undefined;
@@ -37,6 +40,17 @@ export class Game {
             }
         });
 
+        Game.mouse = Matter.Mouse.create(Game.render.canvas); // Assuming 'render' is your Matter.Render instance
+        Game.mouseConstraint = Matter.MouseConstraint.create(Game.engine, {
+            element: Game.render.canvas,
+            mouse: Game.mouse
+        });
+
+        Matter.Composite.add(Game.engine.world, [Game.mouseConstraint]);
+        Game.addListeners();
+    };
+
+    static createContextMenu = () => {
         Game.contextMenu = new ContextMenu();
         const menuItems = [
             {
@@ -49,19 +63,17 @@ export class Game {
                         inputs: [
                             { label: 'Width', name: 'width', type: 'number' },
                             { label: 'Height', name: 'height', type: 'number' },
-                            { label: 'Color', name: 'color', type: 'text' }
+                            { label: 'Position X', name: 'posX', type: 'number' },
+                            { label: 'Position Y', name: 'posY', type: 'number' },
+                            { label: 'Color', name: 'color', type: 'text' },
+                            { label: 'Static?', name: 'isStatic', type: 'checkbox' },
+                            { label: 'Sensor?', name: 'isSensor', type: 'checkbox' }
                         ],
                         buttons: [
                             { 
                                 label: 'Create', 
                                 type: 'primary', 
-                                action: (values) => {
-                                    const size = { w: parseInt(values.width), h: parseInt(values.height) };
-
-                                    const add = Matter.Bodies.rectangle(200, 200, size.w, size.h, { isStatic: true });
-
-                                    Matter.Composite.add(Game.engine.world, [add]);
-                                } 
+                                action: (values) => EntityManager.create('rectangle', values),
                             }
                         ]
                     })
@@ -79,30 +91,7 @@ export class Game {
         ];
 
         Game.contextMenu.setItems(menuItems);
-    };
-
-    static createWorld = () => {
-        /*Game.player = new Player({ render: Game.render, engine: Game.engine });
-        Game.enemy = new Enemy({ render: Game.render, engine: Game.engine });
-        Game.ground = Matter.Bodies.rectangle(400, 800, 1500, 60, { isStatic: true }); // Static body won't move
-        Game.roof = Matter.Bodies.rectangle(400, 0, 1500, 60, { isStatic: true }); // Static body won't move
-        Game.wall = Matter.Bodies.rectangle(0, 580, 60, 1500, { isStatic: true }); // Static body won't move
-        Game.wall2 = Matter.Bodies.rectangle(1025, 580, 60, 1500, { isStatic: true }); // Static body won't move*/
-
-        // Add bodies to the world
-        /*Matter.Composite.add(Game.engine.world, 
-            [
-                Game.player.body, 
-                Game.enemy.body, 
-                Game.ground,
-                Game.wall,
-                Game.wall2,
-                Game.roof
-            ]
-        );*/
-
-        //Game.addListeners();
-    };
+    }
 
     static run = () => {
         // Run the renderer
@@ -114,6 +103,40 @@ export class Game {
     };
 
     static addListeners = () => {
+        Matter.Events.on(Game.mouseConstraint, 'mousedown', (event) => {
+            const bodyClicked = Game.mouseConstraint.body;
+
+            if(bodyClicked) {
+                const v0 = bodyClicked.vertices[0];
+                const v1 = bodyClicked.vertices[1];
+                const dx = v0.x - v1.x;
+                const dy = v0.y - v1.y;
+                const width = Math.sqrt(dx * dx + dy * dy);
+
+
+                const editDialog = new Dialog();
+                editDialog.open({
+                    title: 'Create Rectangle',
+                    inputs: [
+                        { label: 'Width', name: 'width', value: width, type: 'number' },
+                        /*{ label: 'Height', name: 'height', type: 'number' },
+                        { label: 'Position X', name: 'posX', type: 'number' },
+                        { label: 'Position Y', name: 'posY', type: 'number' },
+                        { label: 'Color', name: 'color', type: 'text' },
+                        { label: 'Static?', name: 'isStatic', type: 'checkbox' },
+                        { label: 'Sensor?', name: 'isSensor', type: 'checkbox' }*/
+                    ],
+                    /*buttons: [
+                        { 
+                            label: 'Create', 
+                            type: 'primary', 
+                            action: (values) => EntityManager.create('rectangle', values),
+                        }
+                    ]*/
+                });
+            }
+        });
+
         /*let bulletDirection = 'none';
 
         document.addEventListener('keydown', (event) => {
