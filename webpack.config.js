@@ -6,10 +6,11 @@ module.exports = {
     mode: 'development',
     output: {
         filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
         static: {
-            directory: './dist',
+            directory: path.resolve(__dirname, 'dist'),
         },
         compress: true,
         port: 9000,
@@ -26,5 +27,8 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin()],
+    plugins: [new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'public', 'index.html'),
+        inject: 'head',
+    })],
 };
