@@ -17,7 +17,8 @@ export class Game {
     static wall2 = undefined;
     static keys = {};
 
-    static init = ({ size }) => {
+    static init = ({ size, debug }) => {
+        console.log('GAME SIZE: ', size);
         Game.canvas = document.createElement('canvas');
         Game.canvas.id = 'gameCanvas';
         Game.canvas.style.width = size.width;
@@ -31,12 +32,14 @@ export class Game {
             options: {
                 width: size.width,
                 height: size.height,
-                wireframes: false, // Set to true for debugging outlines
+                wireframes: debug, // Set to true for debugging outlines
                 background: '#f0f0f0',
             }
         });
 
-        Game.contextMenu = new ContextMenu();
+        console.log('GAME INIT');
+
+        /*Game.contextMenu = new ContextMenu();
         const menuItems = [
             {
                 label: 'Create Rectangle',
@@ -58,11 +61,11 @@ export class Game {
             },
         ];
 
-        Game.contextMenu.setItems(menuItems);
+        Game.contextMenu.setItems(menuItems);*/
     };
 
-    static createWorld = () => {
-        Game.player = new Player({ render: Game.render, engine: Game.engine });
+    //static createWorld = () => {
+        /*Game.player = new Player({ render: Game.render, engine: Game.engine });
         Game.enemy = new Enemy({ render: Game.render, engine: Game.engine });
         Game.ground = Matter.Bodies.rectangle(400, 800, 1500, 60, { isStatic: true }); // Static body won't move
         Game.roof = Matter.Bodies.rectangle(400, 0, 1500, 60, { isStatic: true }); // Static body won't move
@@ -79,10 +82,10 @@ export class Game {
                 Game.wall2,
                 Game.roof
             ]
-        );
+        );*/
 
-        Game.addListeners();
-    };
+        //Game.addListeners();
+    //};
 
     static run = () => {
         // Run the renderer
@@ -94,7 +97,7 @@ export class Game {
     };
 
     static addListeners = () => {
-        let bulletDirection = 'none';
+        /*let bulletDirection = 'none';
 
         document.addEventListener('keydown', (event) => {
             Game.keys[event.code] = true;
@@ -148,6 +151,6 @@ export class Game {
             if(Game.player.removed) {
                 Matter.Composite.remove(Game.engine.world, Game.player.body);
             }
-        });
+        });*/
     };
 }
