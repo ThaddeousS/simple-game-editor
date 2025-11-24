@@ -1,7 +1,3 @@
-import { ContextMenu } from "./ui/context-menu";
-import { Player } from "./entity/player";
-import { Enemy } from "./entity/enemy";
-import { Bullet } from "./entity/bullet";
 import Matter from "matter-js"
 
 export class Game {
@@ -36,8 +32,6 @@ export class Game {
                 background: '#f0f0f0',
             }
         });
-
-        console.log('GAME INIT');
 
         /*Game.contextMenu = new ContextMenu();
         const menuItems = [

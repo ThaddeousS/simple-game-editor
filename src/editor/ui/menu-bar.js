@@ -32,6 +32,7 @@ export class MenuBar {
             } else {
                 const dropdownItem = document.createElement('div');
                 dropdownItem.className = 'dropdown-item';
+
                 if (item.disabled) dropdownItem.classList.add('disabled');
                 
                 const label = document.createElement('span');
@@ -39,18 +40,18 @@ export class MenuBar {
                 dropdownItem.appendChild(label);
                 
                 if (item.shortcut) {
-                const shortcut = document.createElement('span');
-                shortcut.className = 'shortcut';
-                shortcut.textContent = item.shortcut;
-                dropdownItem.appendChild(shortcut);
+                    const shortcut = document.createElement('span');
+                    shortcut.className = 'shortcut';
+                    shortcut.textContent = item.shortcut;
+                    dropdownItem.appendChild(shortcut);
                 }
                 
                 if (item.action && !item.disabled) {
-                dropdownItem.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    item.action();
-                    this.closeAllMenus();
-                });
+                    dropdownItem.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        item.action();
+                        this.closeAllMenus();
+                    });
                 }
                 
                 dropdown.appendChild(dropdownItem);
