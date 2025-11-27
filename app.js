@@ -1,28 +1,16 @@
-import { Game } from "./src/game";
-import "./src/styles/context-menu.scss";
-import "./src/styles/dialog.scss";
-import { Dialog } from "./src/ui/dialog";
+import { World } from "./src/world/world.js";
+import game_config from "./public/game_config.json";
+import { Editor } from "./src/editor/editor.js";
 
-const dialog = new Dialog();
-dialog.open({
-    title: 'Hello',
-    message: 'Welcome to Game Editor',
-    buttons: [
-        {
-            label: 'Create',
-            type: 'primary',
-            action: () => {
-                Game.init({
-                    size: {
-                        width: 1024,
-                        height: 768
-                    }
-                });
-                Game.run();
-                Game.createWorld();
+const init = () => {
+  const editor = Editor.create({ parent: "body" });
+  editor.init();
+  /*const world = World.create({
+    size: game_config.world.size,
+    camera: game_config.camera,
+  });
 
-                dialog.close();
-            },
-        }
-    ],
-});
+  world.init();*/
+};
+
+init();
