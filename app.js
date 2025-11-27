@@ -5,7 +5,6 @@ import { Editor } from "./src/editor/editor.js";
 const init = () => {
   const editor = Editor.create({ parent: "body" });
   editor.init();
-
   /*const world = World.create({
     size: game_config.world.size,
     camera: game_config.camera,

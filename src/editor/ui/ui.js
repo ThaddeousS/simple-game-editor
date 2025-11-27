@@ -21,6 +21,20 @@ export class UI {
     }
   }
 
+  update = () => {
+    this.leftToolbar.update();
+    this.rightToolbar.update();
+  };
+
+  destroy = () => {
+    if (this.container && this.container.parentNode) {
+      this.container.parentNode.removeChild(this.container);
+    }
+
+    this.rightToolbar.destroy();
+    this.leftToolbar.destroy();
+  };
+
   static create({ parent = null }) {
     const ui = new UI(parent);
     return ui;

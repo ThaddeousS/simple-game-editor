@@ -20,6 +20,22 @@ export class Editor {
 
   init = () => {
     document.body.appendChild(this.container);
+
+    this.updateInterval = setInterval(() => {
+      this.update();
+    }, 1000 / 60);
+  };
+
+  update = () => {
+    this.ui.update();
+  };
+
+  destroy = () => {
+    clearInterval(this.updateInterval);
+
+    this.ui.destroy();
+
+    document.body.removeChild(this.container);
   };
 
   static create() {

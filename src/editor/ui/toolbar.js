@@ -13,6 +13,7 @@ export class Toolbar {
     title.innerText = "Toolbar";
     title.style.color = "#ffffff";
     title.style.textAlign = "center";
+    title.style.userSelect = "none";
     container.appendChild(title);
 
     this.container = container;
@@ -22,4 +23,14 @@ export class Toolbar {
       parent.appendChild(container);
     }
   }
+
+  update = () => {
+    // Update toolbar elements if needed
+  };
+
+  destroy = () => {
+    if (this.container && this.container.parentNode) {
+      this.container.parentNode.removeChild(this.container);
+    }
+  };
 }
