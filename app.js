@@ -2,15 +2,34 @@ import { World } from "./src/world/world.js";
 import game_config from "./public/game_config.json";
 import { Editor } from "./src/editor/editor.js";
 
-const init = () => {
-  const editor = Editor.create({ parent: "body" });
-  editor.init();
-  /*const world = World.create({
-    size: game_config.world.size,
-    camera: game_config.camera,
-  });
+class App {
+  constructor() {}
 
-  world.init();*/
-};
+  init = () => {
+    const world = World.create({
+      size: game_config.world.size,
+      camera: game_config.world.camera,
+    });
 
-init();
+    world.init();
+
+    const editor = Editor.create({
+      parent: document.body,
+      onCreateObject: this.onCreateObject,
+    });
+
+    editor.init();
+
+    this.world = world;
+    this.editor = editor;
+  };
+
+  onCreateObject = (type) => {
+    console.log(`Creating object of type: ${type}`);
+    // Implement object creation logic here
+  };
+}
+
+const app = new App();
+app.init();
+export default app;

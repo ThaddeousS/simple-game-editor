@@ -1,7 +1,7 @@
 import { UI } from "../editor/ui/ui.js";
 
 export class Editor {
-  constructor() {
+  constructor(parent = null, onCreateObject = null) {
     const container = document.createElement("div");
     container.id = "editor-container";
     container.style.width = `100vw`;
@@ -12,18 +12,29 @@ export class Editor {
     container.style.backgroundColor = "#14e00dff";
     container.style.overflow = "hidden";
 
-    const ui = UI.create({ parent: container });
+    const ui = UI.create({
+      parent: container,
+      onCreateObject,
+    });
 
     this.container = container;
     this.ui = ui;
+    this.parent = parent;
   }
 
   init = () => {
-    document.body.appendChild(this.container);
+    if (this.parent) {
+      this.parent.appendChild(this.container);
+    }
 
-    this.updateInterval = setInterval(() => {
+    /*this.updateInterval = setInterval(() => {
       this.update();
-    }, 1000 / 60);
+    }, 1000 / 60);*/
+  };
+
+  createObject = (type) => {
+    console.log(`Creating object of type: ${type}`);
+    // Implement object creation logic here
   };
 
   update = () => {
@@ -38,8 +49,8 @@ export class Editor {
     document.body.removeChild(this.container);
   };
 
-  static create() {
-    const editor = new Editor();
+  static create({ parent = null, onCreateObject = null }) {
+    const editor = new Editor(parent, onCreateObject);
     return editor;
   }
 }

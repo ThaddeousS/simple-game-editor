@@ -1,5 +1,5 @@
 export class Toolbar {
-  constructor(parent) {
+  constructor(parent, onCreateObject) {
     const container = document.createElement("div");
     container.id = "toolbar-container";
     container.style.width = `10%`;
@@ -16,8 +16,36 @@ export class Toolbar {
     title.style.userSelect = "none";
     container.appendChild(title);
 
+    const createRectangleButton = document.createElement("button");
+    createRectangleButton.innerText = "Create Rectangle";
+    createRectangleButton.style.display = "block";
+    createRectangleButton.style.margin = "10px auto";
+
+    createRectangleButton.addEventListener("click", () => {
+      if (onCreateObject) {
+        onCreateObject("rectangle");
+      }
+    });
+
+    container.appendChild(createRectangleButton);
+
+    const createCircleButton = document.createElement("button");
+    createCircleButton.innerText = "Create Circle";
+    createCircleButton.style.display = "block";
+    createCircleButton.style.margin = "10px auto";
+
+    createCircleButton.addEventListener("click", () => {
+      if (onCreateObject) {
+        onCreateObject("circle");
+      }
+    });
+
+    container.appendChild(createCircleButton);
+
     this.container = container;
     this.title = title;
+    this.createRectangleButton = createRectangleButton;
+    this.createCircleButton = createCircleButton;
 
     if (parent) {
       parent.appendChild(container);

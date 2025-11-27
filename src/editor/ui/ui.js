@@ -2,7 +2,7 @@ import { Properties } from "./properties";
 import { Toolbar } from "./toolbar";
 
 export class UI {
-  constructor(parent = null) {
+  constructor(parent = null, onCreateObject = null) {
     const container = document.createElement("div");
     container.id = "ui-container";
     container.style.width = `100vw`;
@@ -10,11 +10,13 @@ export class UI {
     container.style.position = "relative";
     container.style.backgroundColor = "transparent";
 
-    const leftToolbar = new Toolbar(container);
-    this.leftToolbar = leftToolbar;
+    const toolbar = new Toolbar(container, onCreateObject);
+    this.toolbar = toolbar;
 
-    const rightToolbar = new Properties(container);
-    this.rightToolbar = rightToolbar;
+    const properties = new Properties(container);
+    this.properties = properties;
+
+    this.container = container;
 
     if (parent) {
       parent.appendChild(container);
@@ -22,8 +24,8 @@ export class UI {
   }
 
   update = () => {
-    this.leftToolbar.update();
-    this.rightToolbar.update();
+    this.toolbar.update();
+    this.properties.update();
   };
 
   destroy = () => {
@@ -31,12 +33,12 @@ export class UI {
       this.container.parentNode.removeChild(this.container);
     }
 
-    this.rightToolbar.destroy();
-    this.leftToolbar.destroy();
+    this.properties.destroy();
+    this.toolbar.destroy();
   };
 
-  static create({ parent = null }) {
-    const ui = new UI(parent);
+  static create({ parent = null, onCreateObject = null }) {
+    const ui = new UI(parent, onCreateObject);
     return ui;
   }
 }
