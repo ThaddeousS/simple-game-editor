@@ -1,3 +1,4 @@
+import { Properties } from "./properties";
 import { Toolbar } from "./toolbar";
 
 export class UI {
@@ -11,6 +12,9 @@ export class UI {
 
     const leftToolbar = new Toolbar(container);
     this.leftToolbar = leftToolbar;
+
+    const rightToolbar = new Properties(container);
+    this.rightToolbar = rightToolbar;
 
     if (parent) {
       parent.appendChild(container);
