@@ -1,4 +1,4 @@
-import { Engine, Render } from "matter-js";
+import Matter from "matter-js";
 import { Camera } from "../camera/camera";
 
 export class World {
@@ -11,6 +11,12 @@ export class World {
       fov: 75,
     },
   ) {
+    const container = document.createElement("div");
+    container.id = "world-container";
+    container.style.width = `${size.width}px`;
+    container.style.height = `${size.height}px`;
+    document.body.appendChild(container);
+
     const cameraInstance = Camera.create(camera);
 
     this.camera = cameraInstance;
@@ -18,15 +24,18 @@ export class World {
   }
 
   init = () => {
-    const engine = Engine.create();
-    const render = Render.create({
-      element: document.body,
+    const engine = Matter.Engine.create();
+    const render = Matter.Render.create({
+      element: document.getElementById("world-container"),
       engine: engine,
       options: {
         width: this.camera.viewPort.width,
         height: this.camera.viewPort.height,
       },
     });
+
+    Matter.Runner.run(engine);
+    Matter.Render.run(render);
   };
 
   static create({
