@@ -25,8 +25,9 @@ class App {
   };
 
   onCreateObject = (type) => {
-    console.log(`Creating object of type: ${type}`);
-    // Implement object creation logic here
+    if (this.world) {
+      this.world.createObnject(type);
+    }
   };
 }
 

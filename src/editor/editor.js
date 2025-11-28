@@ -32,11 +32,6 @@ export class Editor {
     }, 1000 / 60);*/
   };
 
-  createObject = (type) => {
-    console.log(`Creating object of type: ${type}`);
-    // Implement object creation logic here
-  };
-
   update = () => {
     this.ui.update();
   };

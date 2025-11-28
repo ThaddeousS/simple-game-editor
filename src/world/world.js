@@ -19,23 +19,42 @@ export class World {
 
     const cameraInstance = Camera.create(camera);
 
-    this.camera = cameraInstance;
-    this.size = size;
-  }
-
-  init = () => {
     const engine = Matter.Engine.create();
     const render = Matter.Render.create({
       element: document.getElementById("world-container"),
       engine: engine,
       options: {
-        width: this.camera.viewPort.width,
-        height: this.camera.viewPort.height,
+        width: cameraInstance.viewPort.width,
+        height: cameraInstance.viewPort.height,
       },
     });
 
-    Matter.Runner.run(engine);
-    Matter.Render.run(render);
+    this.camera = cameraInstance;
+    this.size = size;
+    this.engine = engine;
+    this.render = render;
+  }
+
+  init = () => {
+    Matter.Runner.run(this.engine);
+    Matter.Render.run(this.render);
+  };
+
+  createObnject = (type) => {
+    switch (type) {
+      case "rectangle":
+        if (this.engine && this.render) {
+          const box = Matter.Bodies.rectangle(400, 200, 80, 80);
+
+          Matter.Composite.add(this.engine.world, [box]);
+        }
+        break;
+      case "circle":
+        console.log("Creating a circle object");
+        break;
+      default:
+        console.log(`Unknown object type: ${type}`);
+    }
   };
 
   static create({
